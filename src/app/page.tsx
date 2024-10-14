@@ -1,4 +1,4 @@
-import { HackathonCard } from "@/components/hackathon-card";
+"use client"
 import BlurFade from "@/components/magicui/blur-fade";
 import BlurFadeText from "@/components/magicui/blur-fade-text";
 import { ProjectCard } from "@/components/project-card";
@@ -8,10 +8,20 @@ import { Badge } from "@/components/ui/badge";
 import { DATA } from "@/data/resume";
 import Link from "next/link";
 import Markdown from "react-markdown";
+import { getCalApi } from "@calcom/embed-react";
+import { useEffect } from "react";
 
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
+
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi({ "namespace": "30min" });
+      cal("ui", { "styles": { "branding": { "brandColor": "#000000" } }, "hideEventTypeDetails": false, "layout": "month_view" });
+    })();
+  }, [])
+
   return (
     <main className="flex flex-col min-h-[100dvh] space-y-10">
       <section id="hero">
@@ -22,13 +32,17 @@ export default function Page() {
                 delay={BLUR_FADE_DELAY}
                 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
                 yOffset={8}
-                text={`Hi, I'm ${DATA.name.split(" ")[0]} 👋`}
+                text={`Cédric Fonsat 👋`}
               />
               <BlurFadeText
                 className="max-w-[600px] md:text-xl"
                 delay={BLUR_FADE_DELAY}
                 text={DATA.description}
               />
+              <button className="w-[200px] py-2 dark:bg-white dark:text-black bg-black text-white rounded-lg" data-cal-namespace="30min"
+                data-cal-link="cedric-fonsat/30min"
+                data-cal-config='{"layout":"month_view"}'
+              >Prendre rendez-vous</button>
             </div>
             <BlurFade delay={BLUR_FADE_DELAY}>
               <Avatar className="size-28 border">
@@ -41,7 +55,7 @@ export default function Page() {
       </section>
       <section id="about">
         <BlurFade delay={BLUR_FADE_DELAY * 3}>
-          <h2 className="text-xl font-bold">About</h2>
+          <h2 className="text-xl font-bold">A propos</h2>
         </BlurFade>
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
           <Markdown className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
@@ -52,7 +66,7 @@ export default function Page() {
       <section id="work">
         <div className="flex min-h-0 flex-col gap-y-3">
           <BlurFade delay={BLUR_FADE_DELAY * 5}>
-            <h2 className="text-xl font-bold">Work Experience</h2>
+            <h2 className="text-xl font-bold">Expériences Professionnelles</h2>
           </BlurFade>
           {DATA.work.map((work, id) => (
             <BlurFade
@@ -77,7 +91,7 @@ export default function Page() {
       <section id="education">
         <div className="flex min-h-0 flex-col gap-y-3">
           <BlurFade delay={BLUR_FADE_DELAY * 7}>
-            <h2 className="text-xl font-bold">Education</h2>
+            <h2 className="text-xl font-bold">Diplômes et Formations</h2>
           </BlurFade>
           {DATA.education.map((education, id) => (
             <BlurFade
@@ -100,7 +114,7 @@ export default function Page() {
       <section id="skills">
         <div className="flex min-h-0 flex-col gap-y-3">
           <BlurFade delay={BLUR_FADE_DELAY * 9}>
-            <h2 className="text-xl font-bold">Skills</h2>
+            <h2 className="text-xl font-bold">Mes Stacks</h2>
           </BlurFade>
           <div className="flex flex-wrap gap-1">
             {DATA.skills.map((skill, id) => (
@@ -117,7 +131,7 @@ export default function Page() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
-                  My Projects
+                  Mes réalisations
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                   Check out my latest work
@@ -160,19 +174,12 @@ export default function Page() {
                 Contact
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                Get in Touch
+                Me contacter
               </h2>
-              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Want to chat? Just shoot me a dm{" "}
-                <Link
-                  href={"#"}
-                  className="text-blue-500 hover:underline"
-                >
-                  with a direct question on twitter
-                </Link>{" "}
-                and I&apos;ll respond whenever I can. I will ignore all
-                soliciting.
-              </p>
+              <button className="w-[200px] py-2 dark:bg-white dark:text-black bg-black text-white rounded-lg" data-cal-namespace="30min"
+                data-cal-link="cedric-fonsat/30min"
+                data-cal-config='{"layout":"month_view"}'
+              >Prendre rendez-vous</button>
             </div>
           </BlurFade>
         </div>
